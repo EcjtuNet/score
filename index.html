@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>日新查成绩</title>
+	<link href="http://cdn.bootcss.com/bootstrap/2.3.1/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+	<div class="row-fluid">
+		<div class="span10 offset1">
+
+					<legend>日新服务<small>查成绩</small></legend>
+					<div class="span12 input-append">
+						<input id="stuId" type="number" class="span8" placeholder="请输入你的学号">
+						<button id="idSubmit" type="submit" class="btn btn-primary">查成绩</button>
+					</div>
+
+
+		</div>
+	</div>
+
+	<div class="row-fluid">
+		<div class="span10 offset1">
+			<ul id="term" class="nav nav-pills">
+				<li class="active"><a href="#">学期</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="row-fluid">
+		<div id="score" class="span10 offset1">
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>课程</th>
+						<th>成绩</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<script src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+	<script src="main.js"></script>
+</body>
+</html>
