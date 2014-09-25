@@ -2,17 +2,25 @@ var data, output,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 $('document').ready(function() {
-  $('#idSubmit').click(function() {
+  var btnClick;
+  btnClick = function() {
     var newScript, stuId;
     stuId = $('#stuId').val();
     newScript = '<script src="http://api.ecjtu.net/score.php?s=' + stuId + '&callback=data">';
-    $('body').append(newScript);
-    return $('#score').addClass('loading');
+    return $('body').append(newScript);
+  };
+  $('#idSubmit').click(function() {
+    return btnClick();
   });
-  return $('#term').on('click', 'li', function(event) {
+  $('#term').on('click', 'li', function(event) {
     event.preventDefault();
     $(this).addClass('active').siblings('.active').removeClass('active');
     return output($('tbody'), $(this).children().text(), data.cache());
+  });
+  return $('body').keydown(function(event) {
+    if (event.keyCode === 13) {
+      return btnClick();
+    }
   });
 });
 
@@ -57,23 +65,27 @@ data = function(jsondata) {
 
 output = function(obj, term, info) {
   var content, index, value, _i, _len;
+  if (info === 'error') {
+    return $('.help-block').show();
+  }
+  $('#score').addClass('loading');
+  $('.help-block').hide();
   content = '';
-  console.log(term, info);
   for (index = _i = 0, _len = info.length; _i < _len; index = ++_i) {
     value = info[index];
     if (value.Term === term) {
       if (value.Score < 60 || value.Score === "不及格" || value.Score === "不合格") {
         if (value.FirstScore !== '') {
           if (value.FirstScore < 60 || value.FirstScore === "不及格" || value.FirstScore === "不合格") {
-            content += '<tr class="error"><td>' + value.Course + '</td><td>' + value.Score + '/' + value.FirstScore + '</td></tr>';
+            content += '<tr class="error"><td class="span9">' + value.Course + '</td><td class="span3">' + value.Score + '/' + value.FirstScore + '</td></tr>';
           } else {
-            content += '<tr><td>' + value.Course + '</td><td>' + value.Score + '/' + value.FirstScore + '</td></tr>';
+            content += '<tr><td class="span9">' + value.Course + '</td><td class="span3">' + value.Score + '/' + value.FirstScore + '</td></tr>';
           }
         } else {
-          content += '<tr class="warning"><td>' + value.Course + '</td><td>' + value.Score + '</td></tr>';
+          content += '<tr><td class="span9">' + value.Course + '</td><td class="span3">' + value.Score + '</td></tr>';
         }
       } else {
-        content += '<tr><td>' + value.Course + '</td><td>' + value.Score + '</td></tr>';
+        content += '<tr><td class="span9">' + value.Course + '</td><td class="span3">' + value.Score + '</td></tr>';
       }
     }
   }

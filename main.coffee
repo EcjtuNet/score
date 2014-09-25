@@ -1,13 +1,15 @@
 $('document').ready ->
-	$('#idSubmit').click () ->
+	btnClick = -> 
 		stuId = $('#stuId').val()
 		newScript = '<script src="http://api.ecjtu.net/score.php?s=' + stuId + '&callback=data">'
 		$('body').append newScript
-		$('#score').addClass 'loading'
+	$('#idSubmit').click -> btnClick()
 	$('#term').on 'click', 'li', (event) ->
 		event.preventDefault()
 		$(this).addClass('active').siblings('.active').removeClass('active')
 		output $('tbody'), $(this).children().text(), data.cache()
+	$('body').keydown (event) ->
+		btnClick() if event.keyCode is 13
 
 data = (jsondata) ->
 	term = []
@@ -25,19 +27,21 @@ data = (jsondata) ->
 	data.cache = -> jsondata
 
 output = (obj, term, info) ->
+	return $('.help-block').show() if info is 'error'
+	$('#score').addClass 'loading'
+	$('.help-block').hide()
 	content = ''
-	console.log term, info
 	for value, index in info
 		if value.Term is term 
 			if value.Score < 60 or value.Score is "不及格" or value.Score is "不合格" 
 				if value.FirstScore != ''
 					if value.FirstScore < 60 or value.FirstScore is "不及格" or value.FirstScore is "不合格"
-						content += '<tr class="error"><td>' + value.Course + '</td><td>' + value.Score + '/' + value.FirstScore + '</td></tr>'
+						content += '<tr class="error"><td class="span9">' + value.Course + '</td><td class="span3">' + value.Score + '/' + value.FirstScore + '</td></tr>'
 					else
-						content += '<tr><td>' + value.Course + '</td><td>' + value.Score + '/' + value.FirstScore + '</td></tr>'
+						content += '<tr><td class="span9">' + value.Course + '</td><td class="span3">' + value.Score + '/' + value.FirstScore + '</td></tr>'
 				else
-					content += '<tr class="warning"><td>' + value.Course + '</td><td>' + value.Score + '</td></tr>'
+					content += '<tr><td class="span9">' + value.Course + '</td><td class="span3">' + value.Score + '</td></tr>'
 			else
-				content += '<tr><td>' + value.Course + '</td><td>' + value.Score + '</td></tr>'
+				content += '<tr><td class="span9">' + value.Course + '</td><td class="span3">' + value.Score + '</td></tr>'
 	obj.html content
 	$('#score').removeClass 'loading'
