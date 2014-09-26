@@ -12,6 +12,7 @@ $('document').ready ->
 		btnClick() if event.keyCode is 13
 
 data = (jsondata) ->
+	return $('.help-block').show() if jsondata is 'error'
 	term = []
 	content = ''
 	for item, index in jsondata
@@ -27,7 +28,6 @@ data = (jsondata) ->
 	data.cache = -> jsondata
 
 output = (obj, term, info) ->
-	return $('.help-block').show() if info is 'error'
 	$('#score').addClass 'loading'
 	$('.help-block').hide()
 	content = ''

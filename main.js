@@ -26,6 +26,9 @@ $('document').ready(function() {
 
 data = function(jsondata) {
   var content, i, index, item, l, term, value, _i, _j, _len, _len1, _ref;
+  if (jsondata === 'error') {
+    return $('.help-block').show();
+  }
   term = [];
   content = '';
   for (index = _i = 0, _len = jsondata.length; _i < _len; index = ++_i) {
@@ -65,9 +68,6 @@ data = function(jsondata) {
 
 output = function(obj, term, info) {
   var content, index, value, _i, _len;
-  if (info === 'error') {
-    return $('.help-block').show();
-  }
   $('#score').addClass('loading');
   $('.help-block').hide();
   content = '';
